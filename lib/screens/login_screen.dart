@@ -22,12 +22,12 @@ class _LoginScreenState extends State<LoginScreen> {
             Hero(
               tag: 'logo',
               child: Container(
-                height: 200.0,
+                height: 150.0,
                 child: Image.asset('images/logo.png'),
               ),
             ),
             SizedBox(
-              height: 48.0,
+              height: 28.0,
             ),
             TextField(
               onChanged: (value) {
