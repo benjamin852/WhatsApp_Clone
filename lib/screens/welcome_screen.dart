@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flash_chat/screens/login_screen.dart';
 import 'package:flash_chat/screens/registration_screen.dart';
 
-import 'login_screen.dart';
-import 'login_screen.dart';
+import 'package:flash_chat/widgets/rounded_button.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static const routeName = '/welcome-screen';
@@ -71,7 +70,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                 ),
                 TypewriterAnimatedTextKit(
                   text: ['Flash Chat'],
-                  speed: Duration(seconds: 1),
+                  speed: Duration(milliseconds: 500),
                   textStyle: TextStyle(
                     fontSize: 45,
                     fontWeight: FontWeight.bold,
@@ -89,45 +88,12 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   Navigator.pushNamed(context, LoginScreen.routeName),
             ),
             RoundedButton(
-              colour: Colors.blue,
+              colour: Colors.blueAccent,
               title: 'Register',
               onPressed: () =>
                   Navigator.pushNamed(context, RegistrationScreen.routeName),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class RoundedButton extends StatelessWidget {
-  final Color colour;
-  final String title;
-  final Function onPressed;
-
-  RoundedButton({
-    this.colour,
-    this.title,
-    @required this.onPressed,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 16.0),
-      child: Material(
-        elevation: 5.0,
-        color: Colors.lightBlueAccent,
-        borderRadius: BorderRadius.circular(30.0),
-        child: MaterialButton(
-          onPressed: () =>
-              Navigator.of(context).pushNamed(LoginScreen.routeName),
-          minWidth: 200.0,
-          height: 42.0,
-          child: Text(
-            'Log In',
-          ),
         ),
       ),
     );
