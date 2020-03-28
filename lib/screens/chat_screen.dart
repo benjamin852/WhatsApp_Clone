@@ -11,6 +11,7 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  final _firestore = Firestore.instance;
   final _auth = FirebaseAuth.instance;
 
   FirebaseUser loggedInUser;
@@ -41,11 +42,12 @@ class _ChatScreenState extends State<ChatScreen> {
         leading: null,
         actions: <Widget>[
           IconButton(
-              icon: Icon(Icons.close),
-              onPressed: () {
-                _auth.signOut();
-                Navigator.pop(context);
-              }),
+            icon: Icon(Icons.close),
+            onPressed: () {
+              _auth.signOut();
+              Navigator.pop(context);
+            },
+          ),
         ],
         title: Text('⚡️Chat'),
         backgroundColor: Colors.lightBlueAccent,
@@ -67,13 +69,16 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                   ),
                   FlatButton(
-                    onPressed: () {
-                      //Implement send functionality.
-                    },
                     child: Text(
                       'Send',
                       style: kSendButtonTextStyle,
                     ),
+                    onPressed: () {
+                      _firestore.collection('messages').add({
+                        'text': messageText,
+                        'sender': loggedInUser.email,
+                      });
+                    },
                   ),
                 ],
               ),
