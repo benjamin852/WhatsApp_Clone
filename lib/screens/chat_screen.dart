@@ -72,21 +72,33 @@ class _ChatScreenState extends State<ChatScreen> {
               stream: _firestore.collection('messages').snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
-                  Center(child: CircularProgressIndicator());
+                  Center(
+                    child: CircularProgressIndicator(
+                      backgroundColor: Colors.lightBlueAccent,
+                    ),
+                  );
                 }
                 //snapshot comes from flutter
                 //documents comes from firebase
                 final snapshotData = snapshot.data.documents;
-                List<Text> messageWidgets = [];
+                List<MessageBubble> messageBubbles = [];
                 //snapshotData comes from firebase
                 for (var chatItem in snapshotData) {
                   final chatText = chatItem.data['text'];
                   final chatSender = chatItem.data['sender'];
 
-                  final chatWidget = Text('$chatText from $chatSender');
-                  messageWidgets.add(chatWidget);
+                  final chatBubble = MessageBubble(chatText, chatSender);
+                  messageBubbles.add(chatBubble);
                 }
-                return Column(children: messageWidgets);
+                return Expanded(
+                  child: ListView(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10.0,
+                      vertical: 10.0,
+                    ),
+                    children: messageBubbles,
+                  ),
+                );
               },
             ),
             Container(
@@ -116,6 +128,27 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class MessageBubble extends StatelessWidget {
+  final String sender;
+  final String text;
+
+  MessageBubble(this.sender, this.text);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: Material(
+        color: Colors.lightBlueAccent,
+        child: Text(
+          '$text from $sender',
+          style: TextStyle(fontSize: 50),
         ),
       ),
     );
