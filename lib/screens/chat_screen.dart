@@ -87,7 +87,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   final chatText = chatItem.data['text'];
                   final chatSender = chatItem.data['sender'];
 
-                  final chatBubble = MessageBubble(chatText, chatSender);
+                  final chatBubble = MessageBubble(chatSender, chatText);
                   messageBubbles.add(chatBubble);
                 }
                 return Expanded(
@@ -143,13 +143,35 @@ class MessageBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8),
-      child: Material(
-        color: Colors.lightBlueAccent,
-        child: Text(
-          '$text from $sender',
-          style: TextStyle(fontSize: 50),
-        ),
+      padding: EdgeInsets.all(8),
+      child: Column(
+        children: <Widget>[
+          Text(
+            sender,
+            style: TextStyle(
+              fontSize: 12,
+              color: Colors.black54,
+            ),
+          ),
+          Material(
+            elevation: 5,
+            borderRadius: BorderRadius.circular(30),
+            color: Colors.lightBlueAccent,
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                vertical: 10,
+                horizontal: 20,
+              ),
+              child: Text(
+                text,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 15.0,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
