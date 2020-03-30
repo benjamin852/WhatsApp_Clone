@@ -35,6 +35,16 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
+  void messagesStream() async {
+    //subscribe to collection
+    await for (var dbSnapshot
+        in _firestore.collection('messages').snapshots()) {
+      for (var message in dbSnapshot.documents) {
+        print(message.data);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,8 +54,9 @@ class _ChatScreenState extends State<ChatScreen> {
           IconButton(
             icon: Icon(Icons.close),
             onPressed: () {
-              _auth.signOut();
-              Navigator.pop(context);
+              messagesStream();
+              // _auth.signOut();
+              // Navigator.pop(context);
             },
           ),
         ],

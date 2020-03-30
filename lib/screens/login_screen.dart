@@ -43,6 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               TextField(
                 onChanged: (value) => email = value,
+                keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   hintText: 'Enter your email',
                   contentPadding:
@@ -67,6 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               TextField(
                 onChanged: (value) => password = value,
+                obscureText: true,
                 decoration: InputDecoration(
                   hintText: 'Enter your password.',
                   contentPadding:
