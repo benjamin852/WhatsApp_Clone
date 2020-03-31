@@ -131,11 +131,6 @@ class MessagesStream extends StatelessWidget {
 
           final currentUser = loggedInUser.email;
 
-          if (currentUser == chatSender) {
-            //check if current user is sender of the last message
-
-          }
-
           final chatBubble = MessageBubble(
             chatSender,
             chatText,
@@ -146,6 +141,8 @@ class MessagesStream extends StatelessWidget {
         }
         return Expanded(
           child: ListView(
+            //scrolls to newest message
+            reverse: true,
             padding: EdgeInsets.symmetric(
               horizontal: 10.0,
               vertical: 10.0,
@@ -171,10 +168,11 @@ class MessageBubble extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.all(8),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
+        crossAxisAlignment:
+            isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            sender,
+            '$sender',
             style: TextStyle(
               fontSize: 12,
               color: Colors.black54,
@@ -183,12 +181,18 @@ class MessageBubble extends StatelessWidget {
           Material(
             elevation: 5,
             //will make a border with pointy right
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30.0),
-              bottomLeft: Radius.circular(30.0),
-              bottomRight: Radius.circular(30.0),
-            ),
-            color: isMe ? Colors.lightBlueAccent : Colors.white10,
+            borderRadius: isMe
+                ? BorderRadius.only(
+                    topLeft: Radius.circular(30.0),
+                    bottomLeft: Radius.circular(30.0),
+                    bottomRight: Radius.circular(30.0),
+                  )
+                : BorderRadius.only(
+                    topRight: Radius.circular(30.0),
+                    bottomLeft: Radius.circular(30.0),
+                    bottomRight: Radius.circular(30.0),
+                  ),
+            color: isMe ? Colors.lightBlueAccent : Colors.white,
 
             child: Padding(
               padding: EdgeInsets.symmetric(
@@ -196,9 +200,9 @@ class MessageBubble extends StatelessWidget {
                 horizontal: 20,
               ),
               child: Text(
-                text,
+                '$text',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: isMe ? Colors.white : Colors.black54,
                   fontSize: 15.0,
                 ),
               ),
