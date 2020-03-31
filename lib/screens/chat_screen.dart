@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flash_chat/constants.dart';
 
 final _firestore = Firestore.instance;
+FirebaseUser loggedInUser;
 
 class ChatScreen extends StatefulWidget {
   static const routeName = '/chat_screen';
@@ -17,7 +18,6 @@ class _ChatScreenState extends State<ChatScreen> {
   final messageTextController = TextEditingController();
   final _auth = FirebaseAuth.instance;
 
-  FirebaseUser loggedInUser;
   String messageText;
 
   @override
@@ -129,7 +129,19 @@ class MessagesStream extends StatelessWidget {
           final chatText = chatItem.data['text'];
           final chatSender = chatItem.data['sender'];
 
-          final chatBubble = MessageBubble(chatSender, chatText);
+          final currentUser = loggedInUser.email;
+
+          if (currentUser == chatSender) {
+            //check if current user is sender of the last message
+
+          }
+
+          final chatBubble = MessageBubble(
+            chatSender,
+            chatText,
+            currentUser == chatSender,
+          );
+
           messageBubbles.add(chatBubble);
         }
         return Expanded(
@@ -150,7 +162,9 @@ class MessageBubble extends StatelessWidget {
   final String sender;
   final String text;
 
-  MessageBubble(this.sender, this.text);
+  final bool isMe;
+
+  MessageBubble(this.sender, this.text, this.isMe);
 
   @override
   Widget build(BuildContext context) {
@@ -168,8 +182,14 @@ class MessageBubble extends StatelessWidget {
           ),
           Material(
             elevation: 5,
-            borderRadius: BorderRadius.circular(30),
-            color: Colors.lightBlueAccent,
+            //will make a border with pointy right
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30.0),
+              bottomLeft: Radius.circular(30.0),
+              bottomRight: Radius.circular(30.0),
+            ),
+            color: isMe ? Colors.lightBlueAccent : Colors.white10,
+
             child: Padding(
               padding: EdgeInsets.symmetric(
                 vertical: 10,
