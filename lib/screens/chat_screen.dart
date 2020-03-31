@@ -122,7 +122,7 @@ class MessagesStream extends StatelessWidget {
         }
         //snapshot comes from flutter
         //documents comes from firebase
-        final snapshotData = snapshot.data.documents;
+        final snapshotData = snapshot.data.documents.reversed;
         List<MessageBubble> messageBubbles = [];
         //snapshotData comes from firebase
         for (var chatItem in snapshotData) {
